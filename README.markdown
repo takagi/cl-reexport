@@ -48,6 +48,13 @@ You can also write like this in one line:
 cl-reexport is more useful when sub-packages have many external symbols.
 
 
+## Installation
+
+You can install `cl-reexport` via Quicklisp:
+
+    (ql:quicklisp :cl-reexport)
+
+
 ## Difference from ASDF 3's one-package-per-file fanctionality
 
 ASDF 3 has one-package-per-file fanctionality and its runtime support. The structural difference between (virtual) hierarchical packages and ASDF 3's one-package-per-file fanctionality is:
