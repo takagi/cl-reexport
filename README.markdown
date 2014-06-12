@@ -51,7 +51,7 @@ You can also reexport the only symbols you specify or the symbols other than you
       (:use :cl)
       (:export :x :y :z))
 
-    (defpackage bar-package .b
+    (defpackage bar-package.b
       (:use :cl)
       (:export :p :q :r))
 
