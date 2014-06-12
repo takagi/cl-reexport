@@ -41,7 +41,7 @@ If you want reexport external symbols in FOO-PACKAGE.BAR and FOO-PACKAGE.BAZ fro
     >> FOO-PACKAGE.BAZ:Y
     >>   [symbol]
 
-### :INCLUDE and *EXCLUDE options
+### :INCLUDE and :EXCLUDE options
 
 You can also reexport the only symbols you specify or the symbols other than you specify using :INCLUDE option or :EXCLUDE option. Since they are exclusive, you can not use :INCLUDE option and :EXCLUDE option at the same time.
 
