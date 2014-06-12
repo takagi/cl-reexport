@@ -16,11 +16,11 @@ Here, their definitions are:
 
     (defpackage foo-package.bar
       (:use :cl)
-      (:export x))
+      (:export :x))
 
     (defpackage foo-package.baz
       (:use :cl)
-      (:export y))
+      (:export :y))
 
     (defpackage foo-package
       (:use :cl))
@@ -41,12 +41,36 @@ If you want reexport external symbols in FOO-PACKAGE.BAR and FOO-PACKAGE.BAZ fro
     >> FOO-PACKAGE.BAZ:Y
     >>   [symbol]
 
-You can also write like this in one line:
+You can also reexport the only symbols you specify or the symbols other than you specify using :INCLUDE option or :EXCLUDE option. Since they are exclusive, you can not use :INCLUDE option and :EXCLUDE option at the same time.
 
-    (cl-reexport:reexport-from '(:foo-package.bar :foo-package.baz))
+    (in-package :cl-user)
 
-cl-reexport is more useful when sub-packages have many external symbols.
+    (defpackage bar-package.a
+      (:use :cl)
+      (:export :x :y :z))
 
+    (defpackage bar-package .b
+      (:use :cl)
+      (:export :p :q :r))
+
+    (defpackage bar-package
+      (:use :cl))
+
+    (in-package :bar-package)
+
+    (cl-reexport:reexport-from :bar-package.a
+                               :include '(:x))
+
+    (cl-reexport:reexport-from :bar-package.b
+                               :include '(:p))
+
+    (in-package :cl-user)
+
+    (do-external-symbols (x :bar-package)
+      (print x))
+    >> BAR-PACKAGE.A:X
+    >> BAR-PACKAGE.B:Q
+    >> BAR-PACKAGE.B:R
 
 ## Installation
 

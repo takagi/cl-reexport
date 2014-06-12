@@ -6,32 +6,49 @@
 (in-package :cl-user)
 (defpackage cl-reexport
   (:use :cl)
-  (:export :reexport-from)
-  (:import-from :alexandria
-                :ensure-list))
+  (:export :reexport-from))
 (in-package :cl-reexport)
+
+
+;;;
+;;; Helpers
+;;;
+
+(defun external-symbols (package)
+  (let (ret)
+    (do-external-symbols (var package ret)
+      (push var ret))))
+
+(defun exclude-symbols (exclude symbols)
+  (flet ((aux (symbol)
+           (member symbol exclude :key #'symbol-name
+                                  :test #'string=)))
+    (remove-if #'aux symbols)))
+
+(defun include-symbols (include symbols)
+  (flet ((aux (symbol)
+           (member symbol include :key #'symbol-name
+                                  :test #'string=)))
+    (if include
+        (remove-if-not #'aux symbols)
+        symbols)))
 
 
 ;;;
 ;;; Syntax:
 ;;;
-;;;   REEXPORT-FROM packages-from &optional package
+;;;   REEXPORT-FROM package-from &key include exclude
 ;;;
 ;;; Arguments and values:
 ;;;
-;;;   packages-from --- packages from which symbols are reexported
-;;;   package --- package which reexports symbols
+;;;   package-from --- a package designator from which symbols are reexported
 ;;;
-(defun reexport-from (packages-from &optional package)
-  (let ((symbols (let (ret)
-                   (let ((packages-from1 (ensure-list packages-from)))
-                     (dolist (package-from packages-from1 ret)
-                       (do-external-symbols (var package-from ret)
-                         (push var ret)))))))
-    (if package
-        (progn
-          (use-package packages-from package)
-          (export symbols package))
-        (progn
-          (use-package packages-from)
-          (export symbols)))))
+
+(defun reexport-from (package-from &key include exclude)
+  (unless (not (and include exclude))
+    (error "INCLUDE option and EXCLUDE option are exclusive."))
+  (let ((symbols (include-symbols include
+                   (exclude-symbols exclude
+                     (external-symbols package-from)))))
+    (import symbols)
+    (export symbols)))
