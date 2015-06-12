@@ -16,4 +16,5 @@
   :components ((:module "t"
                 :components
                 ((:file "cl-reexport"))))
+  :description "Test for cl-reexport."
   :perform (load-op :after (op c) (asdf:clear-system c)))

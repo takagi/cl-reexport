@@ -16,7 +16,7 @@
   :components ((:module "src"
                 :components
                 ((:file "cl-reexport"))))
-  :description ""
+  :description "Reexport external symbols in other packages."
   :long-description
   #.(with-open-file (stream (merge-pathnames
                              #p"README.markdown"
