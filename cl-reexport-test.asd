@@ -12,7 +12,7 @@
   :author "Masayuki Takagi"
   :license "LLGPL"
   :depends-on (:cl-reexport
-               :cl-test-more)
+               :prove)
   :components ((:module "t"
                 :components
                 ((:file "cl-reexport"))))
