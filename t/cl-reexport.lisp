@@ -7,7 +7,7 @@
 (defpackage cl-reexport-test
   (:use :cl
         :cl-reexport
-        :cl-test-more))
+        :prove))
 (in-package :cl-reexport-test)
 
 
